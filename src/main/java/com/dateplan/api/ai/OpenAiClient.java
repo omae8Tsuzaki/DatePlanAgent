@@ -33,7 +33,7 @@ public class OpenAiClient implements AiClient {
     public CompletableFuture<String> chat(String systemPrompt, String userPrompt) {
         return CompletableFuture.supplyAsync(() -> {
             ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                    .model("gpt-4o-mini")
+                    .model("gpt-5-nano-2025-08-07")
                     .addSystemMessage(systemPrompt)
                     .addUserMessage(userPrompt)
                     .build();

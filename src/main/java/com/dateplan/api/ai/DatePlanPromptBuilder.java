@@ -15,6 +15,9 @@ import java.util.List;
 @Component
 public class DatePlanPromptBuilder {
 
+    // 環境に依存せず、改行コードを統一するための定数
+    private static final String LS = System.lineSeparator();
+
     /**
      * <p>システムプロンプトを構築する。</p>
      *
@@ -46,28 +49,29 @@ public class DatePlanPromptBuilder {
      */
     public String buildUserPrompt(DatePlanRequest request, WeatherInfo weather, List<Restaurant> restaurants) {
         StringBuilder sb = new StringBuilder();
-        sb.append("## デートプラン作成リクエスト\n\n");
-        sb.append("**日付**: ").append(request.date()).append("\n");
-        sb.append("**エリア**: ").append(request.area()).append("\n\n");
-
-        sb.append("## 天気予報\n");
-        sb.append("**対象地域**: ").append(weather.targetArea()).append("\n");
-        sb.append("**予報**: ").append(weather.text()).append("\n\n");
-
-        sb.append("## 周辺レストラン情報\n");
+        sb.append("## デートプラン作成リクエスト").append(LS);
+        sb.append(LS);
+        sb.append("**日付**: ").append(request.date()).append(LS);
+        sb.append("**エリア**: ").append(request.area()).append(LS);
+        sb.append(LS);
+        sb.append("## 天気予報").append(LS);
+        sb.append("**対象地域**: ").append(weather.targetArea()).append(LS);
+        sb.append("**予報**: ").append(weather.text()).append(LS);
+        sb.append(LS);
+        sb.append("## 周辺レストラン情報").append(LS);
         if (restaurants.isEmpty()) {
-            sb.append("レストラン情報は取得できませんでした。一般的なおすすめを提案してください。\n");
+            sb.append("レストラン情報は取得できませんでした。一般的なおすすめを提案してください。").append(LS);
         } else {
             for (int i = 0; i < restaurants.size(); i++) {
                 Restaurant r = restaurants.get(i);
-                sb.append(i + 1).append(". **").append(r.name()).append("**\n");
-                sb.append("   - ジャンル: ").append(r.genre()).append("\n");
-                sb.append("   - 予算: ").append(r.budget()).append("\n");
-                sb.append("   - アクセス: ").append(r.access()).append("\n");
+                sb.append(i + 1).append(". **").append(r.name()).append("**").append(LS);
+                sb.append("   - ジャンル: ").append(r.genre()).append(LS);
+                sb.append("   - 予算: ").append(r.budget()).append(LS);
+                sb.append("   - アクセス: ").append(r.access()).append(LS);
             }
         }
 
-        sb.append("\n上記の情報をもとに、素敵なデートプランを作成してください。");
+        sb.append(LS).append("上記の情報をもとに、素敵なデートプランを作成してください。");
         return sb.toString();
     }
 }

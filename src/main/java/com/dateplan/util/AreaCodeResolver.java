@@ -10,14 +10,22 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>地域名から気象庁の地域コードを解決するユーティリティクラス。</p>
+ * <p>{@link com.dateplan.api.WeatherApiClient} で使用される地域コードを、ユーザーが入力するエリア名や地名から解決する。</p>
+ */
 public class AreaCodeResolver {
     private static final Map<String, String> EXACT_MAP = new HashMap<>();
     private static final Map<String, String> ALIAS_MAP = new HashMap<>();
 
     static {
+        // クラスロード時に地域コードのマッピングをリソースファイルから読み込む
         loadAreaCodes();
     }
 
+    /**
+     * <p>リソースファイルから地域コードのマッピングを読み込む。</p>
+     */
     private static void loadAreaCodes() {
         try (InputStream is = AreaCodeResolver.class.getResourceAsStream("/area_codes.json")) {
             if (is == null) {
@@ -40,6 +48,12 @@ public class AreaCodeResolver {
         }
     }
 
+    /**
+     * <p>エリア名から地域コードを解決する。</p>
+     *
+     * @param areaName ユーザーが入力するエリア名や地名（例: "新宿", "渋谷区", "東京"）
+     * @return 対応する地域コード（例: "130000"）または解決できない場合はnull
+     */
     public static String resolve(String areaName) {
         if (areaName == null || areaName.isBlank()) {
             return null;

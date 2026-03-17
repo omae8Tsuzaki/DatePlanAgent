@@ -105,6 +105,12 @@ public class HotPepperApiClient {
         return obj.has(key) && !obj.get(key).isJsonNull() ? obj.get(key).getAsString() : "";
     }
 
+    /**
+     * <p>ジャンル名を取得する。ジャンル情報が存在しない場合は空文字を返す。</p>
+     *
+     * @param shop レストランの JSON オブジェクト
+     * @return ジャンル名、存在しない場合は空文字
+     */
     private String getGenre(JsonObject shop) {
         if (shop.has("genre") && shop.get("genre").isJsonObject()) {
             return getStringOrEmpty(shop.getAsJsonObject("genre"), "name");
@@ -112,6 +118,12 @@ public class HotPepperApiClient {
         return "";
     }
 
+    /**
+     * <p>予算を取得する。予算情報が存在しない場合は空文字を返す。</p>
+     *
+     * @param shop レストランの JSON オブジェクト
+     * @return 予算、存在しない場合は空文字
+     */
     private String getBudget(JsonObject shop) {
         if (shop.has("budget") && shop.get("budget").isJsonObject()) {
             return getStringOrEmpty(shop.getAsJsonObject("budget"), "name");
@@ -119,6 +131,14 @@ public class HotPepperApiClient {
         return "";
     }
 
+    /**
+     * <p>ネストされた JSON オブジェクトから文字列値を安全に取得する。指定された外側のキーと内側のキーが存在しない場合は空文字を返す。</p>
+     *
+     * @param obj JSON オブジェクト
+     * @param outerKey 外側のキー
+     * @param innerKey 内側のキー
+     * @return 内側のキーに対応する文字列値、存在しない場合は空文字
+     */
     private String getNestedString(JsonObject obj, String outerKey, String innerKey) {
         if (obj.has(outerKey) && obj.get(outerKey).isJsonObject()) {
             return getStringOrEmpty(obj.getAsJsonObject(outerKey), innerKey);
@@ -126,6 +146,12 @@ public class HotPepperApiClient {
         return "";
     }
 
+    /**
+     * <p>レストランの写真URLを取得する。写真情報が存在しない場合は空文字を返す。</p>
+     *
+     * @param shop レストランの JSON オブジェクト
+     * @return 写真URL、存在しない場合は空文字
+     */
     private String getPhoto(JsonObject shop) {
         if (shop.has("photo") && shop.get("photo").isJsonObject()) {
             JsonObject photo = shop.getAsJsonObject("photo");

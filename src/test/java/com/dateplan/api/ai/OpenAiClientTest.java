@@ -29,7 +29,7 @@ public class OpenAiClientTest {
         //
 
         // スタブ
-        AiClient openAiClient = new OpenAiClientStab("dummy-api-key");
+        AiClient openAiClient = new OpenAiClientStub("dummy-api-key");
 
         String systemPrompt = "あなたはデートプランナーのAIアシスタントです。";
         String userPrompt = "2024年6月15日に東京でデートプランを提案してください。天気は晴れで、レストランはイタリアンがいいです。";
@@ -46,7 +46,7 @@ public class OpenAiClientTest {
         //
 
         assertEquals(
-                "2024年6月15日に東京でのデートプランを提案します。天気は晴れですが家から出たくありません。夜は家で鍋を作りましょう。"
+                "2024年6月15日に東京でのデートプランを提案します。天気は晴れですが、家から出たくありませんね。夜は家で鍋を作りましょう。"
                 ,  result
         );
     }

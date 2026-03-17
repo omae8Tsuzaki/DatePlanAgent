@@ -1,5 +1,0 @@
-spring.main.web-application-type=none
-
-discord.token=${DISCORD_TOKEN}
-openai.api.key=${OPENAI_API_KEY}
-hotpepper.api.key=${HOTPEPPER_API_KEY}

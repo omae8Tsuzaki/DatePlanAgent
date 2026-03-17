@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class DatePlanAgent {
     private static final Logger logger = LoggerFactory.getLogger(DatePlanAgent.class);
+    // ホットペッパーAPIから取得するレストランの最大数
     private static final int RESTAURANT_COUNT = 5;
 
     private final WeatherApiClient weatherClient;
@@ -38,6 +39,12 @@ public class DatePlanAgent {
         this.promptBuilder = promptBuilder;
     }
 
+    /**
+     * <p>デートプランを生成するメインメソッド。</p>
+     *
+     * @param request デートプランのリクエスト情報（日付、エリアなど）
+     * @return 生成されたデートプランを含むCompletableFuture
+     */
     public CompletableFuture<DatePlan> generatePlan(DatePlanRequest request) {
         logger.info("Generating date plan for date={}, area={}", request.date(), request.area());
 
@@ -63,8 +70,12 @@ public class DatePlanAgent {
         // 両方の結果を待ってからOpenAIでプラン生成
         return weatherFuture.thenCombine(restaurantFuture, (weather, restaurants) -> {
             logger.info("Weather and restaurant data collected. Generating plan with AI...");
+
+            // システムプロンプト生成
             String systemPrompt = promptBuilder.buildSystemPrompt();
+            // ユーザープロンプト生成
             String userPrompt = promptBuilder.buildUserPrompt(request, weather, restaurants);
+
             return aiClient.chat(systemPrompt, userPrompt)
                     .thenApply(planText -> new DatePlan(request, weather, restaurants, planText));
         }).thenCompose(future -> future);

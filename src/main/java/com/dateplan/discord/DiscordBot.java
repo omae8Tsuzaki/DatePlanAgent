@@ -24,9 +24,17 @@ public class DiscordBot implements CommandLineRunner {
         this.agent = agent;
     }
 
+    /**
+     * <p>アプリケーション起動時にJDAを構築し、スラッシュコマンドを登録する。</p>
+     * <p>このメソッドはSpring BootのCommandLineRunnerインターフェースを実装しており、アプリケーションが起動した際に自動的に呼び出されます。</p>
+     *
+     * @param args コマンドライン引数（使用しない）
+     * @throws Exception JDAの起動に失敗した場合
+     */
     @Override
     public void run(String... args) throws Exception {
         JDA jda = buildJda(config, agent);
+        // スラッシュコマンドを登録
         registerCommands(jda);
         logger.info("DatePlanAgent Bot is ready!");
     }
@@ -52,6 +60,11 @@ public class DiscordBot implements CommandLineRunner {
         return jda;
     }
 
+    /**
+     * <p>Discordのスラッシュコマンドを登録する。</p>
+     *
+     * @param jda JDAのインスタンス
+     */
     void registerCommands(JDA jda) {
         jda.updateCommands().addCommands(
                 Commands.slash("dateplan", "デートプランを生成します")

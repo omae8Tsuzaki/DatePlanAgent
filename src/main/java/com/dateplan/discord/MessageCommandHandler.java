@@ -22,6 +22,12 @@ public class MessageCommandHandler extends ListenerAdapter {
         this.agent = agent;
     }
 
+    /**
+     * <p>メッセージコマンド「!dateplan」を処理する。</p>
+     * <p>ユーザーが「!dateplan <日付> <エリア>」という形式でコマンドを送信した際に、デートプランを生成して返信します。</p>
+     *
+     * @param event メッセージ受信のイベント
+     */
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) {
