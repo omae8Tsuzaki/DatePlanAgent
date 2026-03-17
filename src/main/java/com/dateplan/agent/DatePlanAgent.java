@@ -22,9 +22,13 @@ import java.util.concurrent.CompletableFuture;
  */
 @Service
 public class DatePlanAgent {
-    private static final Logger logger = LoggerFactory.getLogger(DatePlanAgent.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatePlanAgent.class);
     // ホットペッパーAPIから取得するレストランの最大数
     private static final int RESTAURANT_COUNT = 5;
+
+    // 使用するAIモデルのID
+    // TODO 将来的に application.properties から設定できるようにする
+    private static final String MODEL_ID = "gpt-5-nano-2025-08-07";
 
     private final WeatherApiClient weatherClient;
     private final HotPepperApiClient hotPepperClient;
@@ -46,7 +50,7 @@ public class DatePlanAgent {
      * @return 生成されたデートプランを含むCompletableFuture
      */
     public CompletableFuture<DatePlan> generatePlan(DatePlanRequest request) {
-        logger.info("Generating date plan for date={}, area={}", request.date(), request.area());
+        LOGGER.info("Generating date plan for date={}, area={}", request.date(), request.area());
 
         String areaCode = AreaCodeResolver.resolve(request.area());
         if (areaCode == null) {
@@ -57,26 +61,26 @@ public class DatePlanAgent {
         // 天気予報とレストラン情報を並列取得
         CompletableFuture<WeatherInfo> weatherFuture = weatherClient.getWeather(areaCode)
                 .exceptionally(e -> {
-                    logger.warn("Failed to fetch weather: {}", e.getMessage());
+                    LOGGER.warn("Failed to fetch weather: {}", e.getMessage());
                     return new WeatherInfo(request.area(), "", "", "天気情報を取得できませんでした。");
                 });
 
         CompletableFuture<List<Restaurant>> restaurantFuture = hotPepperClient.searchRestaurants(request.area(), RESTAURANT_COUNT)
                 .exceptionally(e -> {
-                    logger.warn("Failed to fetch restaurants: {}", e.getMessage());
+                    LOGGER.warn("Failed to fetch restaurants: {}", e.getMessage());
                     return Collections.emptyList();
                 });
 
         // 両方の結果を待ってからOpenAIでプラン生成
         return weatherFuture.thenCombine(restaurantFuture, (weather, restaurants) -> {
-            logger.info("Weather and restaurant data collected. Generating plan with AI...");
+            LOGGER.info("Weather and restaurant data collected. Generating plan with AI...");
 
             // システムプロンプト生成
             String systemPrompt = promptBuilder.buildSystemPrompt();
             // ユーザープロンプト生成
             String userPrompt = promptBuilder.buildUserPrompt(request, weather, restaurants);
 
-            return aiClient.chat(systemPrompt, userPrompt)
+            return aiClient.chat(systemPrompt, userPrompt, MODEL_ID)
                     .thenApply(planText -> new DatePlan(request, weather, restaurants, planText));
         }).thenCompose(future -> future);
     }

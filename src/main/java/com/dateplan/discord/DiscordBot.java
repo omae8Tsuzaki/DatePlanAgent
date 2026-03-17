@@ -12,9 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * <p>Discord Botのエントリーポイントとなるクラス。</p>
+ */
 @Component
 public class DiscordBot implements CommandLineRunner {
-    private static final Logger logger = LoggerFactory.getLogger(DiscordBot.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscordBot.class);
 
     private final AppConfig config;
     private final DatePlanAgent agent;
@@ -36,7 +39,7 @@ public class DiscordBot implements CommandLineRunner {
         JDA jda = buildJda(config, agent);
         // スラッシュコマンドを登録
         registerCommands(jda);
-        logger.info("DatePlanAgent Bot is ready!");
+        LOGGER.info("DatePlanAgent Bot is ready!");
     }
 
     /**

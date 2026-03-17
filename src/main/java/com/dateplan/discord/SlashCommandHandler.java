@@ -3,6 +3,7 @@ package com.dateplan.discord;
 import com.dateplan.agent.DatePlanAgent;
 import com.dateplan.entity.DatePlan;
 import com.dateplan.entity.DatePlanRequest;
+import com.dateplan.util.ValidateUtil;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * <p>Discordのスラッシュコマンドを処理するクラス。</p>
  */
 public class SlashCommandHandler extends ListenerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(SlashCommandHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlashCommandHandler.class);
     private final DatePlanAgent agent;
 
     public SlashCommandHandler(DatePlanAgent agent) {
@@ -35,6 +36,13 @@ public class SlashCommandHandler extends ListenerAdapter {
         String date = event.getOption("date") != null ? event.getOption("date").getAsString() : "";
         String area = event.getOption("area") != null ? event.getOption("area").getAsString() : "";
 
+        // 入力値チェック
+        // 日付
+        if (!ValidateUtil.validateDate(date, ValidateUtil.YYYY_MM_DD_FORMATTER)) {
+            event.getChannel().sendMessage("日付の形式が正しくありません。例: `2026-03-15`").queue();
+            return;
+        }
+
         if (date.isBlank() || area.isBlank()) {
             event.reply("日付とエリアを両方指定してください。\n例: `/dateplan date:2026-03-15 area:渋谷`")
                     .setEphemeral(true)
@@ -42,7 +50,7 @@ public class SlashCommandHandler extends ListenerAdapter {
             return;
         }
 
-        logger.info("Slash command received: date={}, area={}", date, area);
+        LOGGER.info("Slash command received: date={}, area={}", date, area);
 
         // 即座に「考え中...」を返答
         event.deferReply().queue();
@@ -54,7 +62,7 @@ public class SlashCommandHandler extends ListenerAdapter {
                     sendLongMessage(event, message);
                 })
                 .exceptionally(e -> {
-                    logger.error("Failed to generate plan", e);
+                    LOGGER.error("Failed to generate plan", e);
                     event.getHook().sendMessage("エラーが発生しました: " + e.getMessage()).queue();
                     return null;
                 });

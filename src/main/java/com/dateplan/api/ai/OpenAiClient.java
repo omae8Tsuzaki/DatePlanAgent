@@ -26,14 +26,15 @@ public class OpenAiClient implements AiClient {
      * <p>システムプロンプトとユーザープロンプトを受け取り、OpenAI APIを呼び出して応答を非同期で返す。</p>
      *
      * @param systemPrompt システムプロンプト
-     * @param userPrompt ユーザープロンプト
+     * @param userPrompt   ユーザープロンプト
+     * @param modelId 使用するモデルID
      * @return AIの応答テキストを含むCompletableFuture
      */
     @Override
-    public CompletableFuture<String> chat(String systemPrompt, String userPrompt) {
+    public CompletableFuture<String> chat(String systemPrompt, String userPrompt, String modelId) {
         return CompletableFuture.supplyAsync(() -> {
             ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                    .model("gpt-5-nano-2025-08-07")
+                    .model(modelId)
                     .addSystemMessage(systemPrompt)
                     .addUserMessage(userPrompt)
                     .build();

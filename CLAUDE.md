@@ -42,6 +42,6 @@ Spring Bootのコンストラクタインジェクションで全Bean（`AppConf
 **外部API:**
 - 気象庁: `https://www.jma.go.jp/bosai/forecast/data/overview_forecast/{areaCode}.json` — 認証不要
 - ホットペッパー: `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/` — APIキー必要
-- OpenAI: `gpt-4o-mini` モデルによるChat Completion（公式Java SDK使用）
+- OpenAI: `gpt-5-nano-2025-08-07` モデルによるChat Completion（公式Java SDK使用）
 
 **言語:** ユーザー向け出力・プロンプトはすべて日本語。

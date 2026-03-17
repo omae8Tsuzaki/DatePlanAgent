@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * <p>{@link OpenAiClient}のテストクラス。</p>
  *
- * <h4>対象：{@link OpenAiClient#chat(String, String)}メソッド。</h4>
+ * <h4>対象：{@link AiClient#chat(String, String, String)}メソッド。</h4>
  * <ul>
  *     <li>{@link #chatSuccess01()} 正常系: システムプロンプトとユーザープロンプトを使用してAIの応答が正しく返されることを確認する。</li>
  * </ul>
@@ -33,12 +33,13 @@ public class OpenAiClientTest {
 
         String systemPrompt = "あなたはデートプランナーのAIアシスタントです。";
         String userPrompt = "2024年6月15日に東京でデートプランを提案してください。天気は晴れで、レストランはイタリアンがいいです。";
+        String modelId = "dammy-model-id";
 
         //
         // 実行
         //
 
-        CompletableFuture<String> openAiFuture =  openAiClient.chat(systemPrompt, userPrompt);
+        CompletableFuture<String> openAiFuture =  openAiClient.chat(systemPrompt, userPrompt, modelId);
         String result = openAiFuture.get();
 
         //

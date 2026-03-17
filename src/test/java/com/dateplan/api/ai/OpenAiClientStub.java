@@ -11,7 +11,7 @@ public class OpenAiClientStub extends OpenAiClient implements AiClient {
         super(apiKey);
     }
 
-    public CompletableFuture<String> chat(String systemPrompt, String userPrompt) {
+    public CompletableFuture<String> chat(String systemPrompt, String userPrompt, String modelId) {
         // スタブ実装: 常に固定の応答を返す
         return CompletableFuture.completedFuture(
                 "2024年6月15日に東京でのデートプランを提案します。" +
