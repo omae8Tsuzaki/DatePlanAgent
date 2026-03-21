@@ -8,6 +8,10 @@ import java.time.format.DateTimeParseException;
  */
 public class ValidateUtil {
 
+    private ValidateUtil() {
+        // ユーティリティクラスのため，インスタンス化を防止するために private コンストラクタを定義
+    }
+
     /**
      * <p>日付の形式を定義する定数。</p>
      * <p>形式：YYYY-MM-DD</p>
@@ -24,6 +28,8 @@ public class ValidateUtil {
      * <p>日付の形式を検証するメソッド。</p>
      *
      * @param date 検証する日付文字列
+     * @param formatter 日付の形式を定義する DateTimeFormatter
+     * @return 日付の形式が正しい場合は true、そうでない場合は false
      */
     public static boolean validateDate(String date, DateTimeFormatter formatter) {
 

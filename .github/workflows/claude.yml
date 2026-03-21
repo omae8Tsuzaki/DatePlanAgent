@@ -7,8 +7,6 @@ on:
     types: [created]
   issues:
     types: [opened, assigned]
-  pull_request:
-    types: [opened] # opened（PR新規作成時）で起動する
   pull_request_review:
     types: [submitted]
 

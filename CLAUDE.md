@@ -11,7 +11,7 @@
 ./gradlew bootRun              # Discord Botを起動（Spring Boot）
 ```
 
-Gradle 9.0、Java 17+、Spring Boot 3.4.3。設定は `src/main/resources/application.properties` で管理（必要なキーは `application.properties.example` を参照: `discord.token`, `openai.api.key`, `hotpepper.api.key`）。プロパティが未設定の場合は環境変数（`DISCORD_TOKEN`, `OPENAI_API_KEY`, `HOTPEPPER_API_KEY`）にフォールバックする。Webサーバーは不要なため `spring.main.web-application-type=none` を設定している。
+Gradle 9.0、Java 21+、Spring Boot 4.0.3。設定は `src/main/resources/application.properties` で管理（必要なキーは `application.properties.example` を参照: `discord.token`, `openai.api.key`, `hotpepper.api.key`）。プロパティが未設定の場合は環境変数（`DISCORD_TOKEN`, `OPENAI_API_KEY`, `HOTPEPPER_API_KEY`）にフォールバックする。Webサーバーは不要なため `spring.main.web-application-type=none` を設定している。
 
 ## アーキテクチャ
 

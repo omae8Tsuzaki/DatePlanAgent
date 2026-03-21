@@ -1,6 +1,4 @@
 <!-- I want to review in Japanese. -->
-- 概要
-
 - 変更内容
 
 - 関連Issue

@@ -9,8 +9,8 @@ group = "com.dateplan"
 version = "1.0-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -26,13 +26,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
 
     // Discord
-    implementation("net.dv8tion:JDA:5.6.0")
+    implementation("net.dv8tion:JDA:6.3.2")
 
     // OpenAI
-    implementation("com.openai:openai-java:4.26.0")
+    implementation("com.openai:openai-java:4.29.0")
 
     // JSON
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.google.code.gson:gson:2.13.2")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
