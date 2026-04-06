@@ -8,10 +8,10 @@
 ./gradlew compileJava          # コンパイルのみ
 ./gradlew test                 # 全テスト実行 (JUnit 5)
 ./gradlew test --tests "com.dateplan.util.AreaCodeResolverTest"  # 単一テストクラス実行
-./gradlew bootRun              # Discord Botを起動（Spring Boot）
+./gradlew run                  # Discord Botを起動（applicationプラグイン）
 ```
 
-Gradle 9.0、Java 21+、Spring Boot 4.0.3。設定は `src/main/resources/application.properties` で管理（必要なキーは `application.properties.example` を参照: `discord.token`, `openai.api.key`, `hotpepper.api.key`）。プロパティが未設定の場合は環境変数（`DISCORD_TOKEN`, `OPENAI_API_KEY`, `HOTPEPPER_API_KEY`）にフォールバックする。Webサーバーは不要なため `spring.main.web-application-type=none` を設定している。
+Gradle 9.0、Java 21+、Spring Boot 4.0.5。依存関係は `gradle/libs.versions.toml`（バージョンカタログ）で管理。設定は `src/main/resources/application.properties` で管理（必要なキーは `application.properties.example` を参照: `discord.token`, `openai.api.key`, `hotpepper.api.key`）。プロパティが未設定の場合は環境変数（`DISCORD_TOKEN`, `OPENAI_API_KEY`, `HOTPEPPER_API_KEY`）にフォールバックする。Webサーバーは不要なため `spring.main.web-application-type=none` を設定している。`build.gradle.kts` は Spring Boot Gradle プラグインを使わず `application` プラグインで起動する。
 
 ## アーキテクチャ
 

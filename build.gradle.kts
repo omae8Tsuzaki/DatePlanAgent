@@ -1,8 +1,6 @@
 plugins {
     id("java")
     id("application")
-    id("org.springframework.boot") version "4.0.3"
-    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "com.dateplan"
@@ -23,20 +21,21 @@ application {
 
 dependencies {
     // Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter")
+    implementation(libs.spring.boot.starter)
+    implementation(platform(libs.spring.boot.bom))
+    testImplementation(libs.spring.boot.starter.test)
 
     // Discord
-    implementation("net.dv8tion:JDA:6.3.2")
+    implementation(libs.jda)
 
     // OpenAI
-    implementation("com.openai:openai-java:4.29.0")
+    implementation(libs.openai)
 
-    // JSON
-    implementation("com.google.code.gson:gson:2.13.2")
+    // Gson
+    implementation(libs.gson)
 
     // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 tasks.test {
