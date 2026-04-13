@@ -47,7 +47,7 @@ public class DatePlanAgent {
      * <p>デートプランを生成するメインメソッド。</p>
      *
      * @param request デートプランのリクエスト情報（日付、エリアなど）
-     * @return 生成されたデートプランを含むCompletableFuture
+     * @return 生成されたデートプランを含む CompletableFuture
      */
     public CompletableFuture<DatePlan> generatePlan(DatePlanRequest request) {
         LOGGER.info("Generating date plan for date={}, area={}", request.date(), request.area());

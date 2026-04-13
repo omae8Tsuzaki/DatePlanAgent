@@ -1,24 +1,24 @@
 package com.dateplan.api.ai;
 
+import com.dateplan.AppConfig;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * <p>OpenAI APIを使用するAiClient実装クラス。</p>
+ * <p>OpenAI API を使用する AiClient 実装クラス。</p>
  */
 @Component
 public class OpenAiClient implements AiClient {
     private final OpenAIClient client;
 
-    public OpenAiClient(@Value("${openai.api.key}") String apiKey) {
+    public OpenAiClient(AppConfig appConfig) {
         this.client = OpenAIOkHttpClient.builder()
-                .apiKey(apiKey)
+                .apiKey(appConfig.getOpenAiApiKey())
                 .build();
     }
 

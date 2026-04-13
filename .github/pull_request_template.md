@@ -2,7 +2,7 @@
 - 変更内容
 
 - 関連Issue
-    - #(関連するIssue番号)
+  - #(関連するIssue番号)
 
 <!-- for GitHub Copilot review  rule-->
 <!--

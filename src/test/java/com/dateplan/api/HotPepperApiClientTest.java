@@ -1,5 +1,6 @@
 package com.dateplan.api;
 
+import com.dateplan.AppConfig;
 import com.dateplan.entity.Restaurant;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class HotPepperApiClientTest {
 
+    /**
+     * <p>正常系: キーワードを使用してレストラン情報を取得できることを確認する。</p>
+     *
+     * @throws Exception 想定外の例外が発生した場合
+     */
     @Test
     public void searchRestaurantsSuccess01() throws Exception {
 
@@ -28,7 +34,8 @@ public class HotPepperApiClientTest {
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = "test-hotpepper-key";
         }
-        HotPepperApiClient hotPepperClient = new HotPepperApiClient(apiKey);
+        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", apiKey);
+        HotPepperApiClient hotPepperClient = new HotPepperApiClient(appConfig);
         String keyword = "渋谷 デート";
         int maxResults = 5;
 

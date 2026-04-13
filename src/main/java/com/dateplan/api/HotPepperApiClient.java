@@ -1,11 +1,11 @@
 package com.dateplan.api;
 
+import com.dateplan.AppConfig;
 import com.dateplan.entity.Restaurant;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * <p>ホットペッパーグルメAPIクライアント</p>
+ * <p>ホットペッパーグルメ API クライアント</p>
  */
 @Component
 public class HotPepperApiClient {
@@ -28,10 +28,10 @@ public class HotPepperApiClient {
     private final Gson gson;
     private final String apiKey;
 
-    public HotPepperApiClient(@Value("${hotpepper.api.key}") String apiKey) {
+    public HotPepperApiClient(AppConfig appConfig) {
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new Gson();
-        this.apiKey = apiKey;
+        this.apiKey = appConfig.getHotPepperApiKey();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.dateplan.api.ai;
 
+import com.dateplan.AppConfig;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,7 +30,8 @@ public class OpenAiClientTest {
         //
 
         // スタブ
-        AiClient openAiClient = new OpenAiClientStub("dummy-api-key");
+        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", "dummy-hotpepper-key");
+        AiClient openAiClient = new OpenAiClientStub(appConfig);
 
         String systemPrompt = "あなたはデートプランナーのAIアシスタントです。";
         String userPrompt = "2024年6月15日に東京でデートプランを提案してください。天気は晴れで、レストランはイタリアンがいいです。";

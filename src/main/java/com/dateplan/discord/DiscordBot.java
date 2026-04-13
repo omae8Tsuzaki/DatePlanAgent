@@ -13,7 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>Discord Botのエントリーポイントとなるクラス。</p>
+ * <p>Discord Bot のエントリーポイントとなるクラス。</p>
  */
 @Component
 public class DiscordBot implements CommandLineRunner {
@@ -28,8 +28,8 @@ public class DiscordBot implements CommandLineRunner {
     }
 
     /**
-     * <p>アプリケーション起動時にJDAを構築し、スラッシュコマンドを登録する。</p>
-     * <p>このメソッドはSpring BootのCommandLineRunnerインターフェースを実装しており、アプリケーションが起動した際に自動的に呼び出されます。</p>
+     * <p>アプリケーション起動時に JDA を構築し、スラッシュコマンドを登録する。</p>
+     * <p>このメソッドは Spring Boot のCommandLineRunner インターフェースを実装しており、アプリケーションが起動した際に自動的に呼び出されます。</p>
      *
      * @param args コマンドライン引数（使用しない）
      * @throws Exception JDAの起動に失敗した場合
@@ -43,11 +43,11 @@ public class DiscordBot implements CommandLineRunner {
     }
 
     /**
-     * <p>JDAを構築する。</p>
+     * <p>JDA を構築する。</p>
      *
      * @param config アプリケーション設定
-     * @param agent DatePlanAgentのインスタンス
-     * @return 構築されたJDAのインスタンス
+     * @param agent DatePlanAgent のインスタンス
+     * @return 構築された JDA のインスタンス
      * @throws InterruptedException JDAの起動に失敗した場合
      */
     JDA buildJda(AppConfig config, DatePlanAgent agent) throws InterruptedException {
@@ -64,9 +64,9 @@ public class DiscordBot implements CommandLineRunner {
     }
 
     /**
-     * <p>Discordのスラッシュコマンドを登録する。</p>
+     * <p>Discord のスラッシュコマンドを登録する。</p>
      *
-     * @param jda JDAのインスタンス
+     * @param jda JDA のインスタンス
      */
     void registerCommands(JDA jda) {
         jda.updateCommands().addCommands(

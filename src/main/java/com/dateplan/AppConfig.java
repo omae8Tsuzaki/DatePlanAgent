@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 public class AppConfig {
 
     /**
-     * <p>Discord Botのトークン。</p>
+     * <p>Discord Bot のトークン。</p>
      */
     private final String discordToken;
 
     /**
-     * <p>OpenAI APIキー。</p>
+     * <p>OpenAI API キー。</p>
      */
     private final String openAiApiKey;
 
     /**
-     * <p>Hot Pepper APIキー。</p>
+     * <p>Hot Pepper API キー。</p>
      */
     private final String hotPepperApiKey;
 
@@ -34,6 +34,9 @@ public class AppConfig {
         this.hotPepperApiKey = hotPepperApiKey;
     }
 
+    /**
+     * <p>アプリケーション起動時に設定値の検証を行う。</p>
+     */
     @PostConstruct
     void validate() {
         if (discordToken == null || discordToken.isBlank()) {
@@ -48,27 +51,27 @@ public class AppConfig {
     }
 
     /**
-     * <p>Discord Botのトークンを取得する。</p>
+     * <p>Discord Bot のトークンを取得する。</p>
      *
-     * @return Discord Botのトークン
+     * @return Discord Bot のトークン
      */
     public String getDiscordToken() {
         return discordToken;
     }
 
     /**
-     * <p>OpenAI APIキーを取得する。</p>
+     * <p>OpenAI API キーを取得する。</p>
      *
-     * @return OpenAI APIキー
+     * @return OpenAI API キー
      */
     public String getOpenAiApiKey() {
         return openAiApiKey;
     }
 
     /**
-     * <p>Hot Pepper APIキーを取得する。</p>
+     * <p>Hot Pepper API キーを取得する。</p>
      *
-     * @return Hot Pepper APIキー
+     * @return Hot Pepper API キー
      */
     public String getHotPepperApiKey() {
         return hotPepperApiKey;

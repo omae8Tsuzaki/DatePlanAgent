@@ -1,5 +1,7 @@
 package com.dateplan.api.ai;
 
+import com.dateplan.AppConfig;
+
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -7,8 +9,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class OpenAiClientStub extends OpenAiClient implements AiClient {
 
-    public OpenAiClientStub(String apiKey) {
-        super(apiKey);
+    public OpenAiClientStub(AppConfig appConfig) {
+        super(appConfig);
     }
 
     public CompletableFuture<String> chat(String systemPrompt, String userPrompt, String modelId) {
