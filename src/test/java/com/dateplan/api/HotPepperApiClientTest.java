@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * <p>{@link HotPepperApiClient}のテストクラス。</p>
  *
- * <h4>対象：{@link HotPepperApiClient#searchRestaurants(String, int)}メソッド。</h4>
+ * <h4>対象：{@link HotPepperApiClient#searchRestaurants(String, String, int)}メソッド。</h4>
  * <ul>
  *    <li>{@link #searchRestaurantsSuccess01()} 正常系: キーワードを使用してレストラン情報を取得できることを確認する。</li>
  * </ul>
@@ -42,7 +42,7 @@ public class HotPepperApiClientTest {
         //
         // 実行
         //
-        CompletableFuture<List<Restaurant>> searchFuture = hotPepperClient.searchRestaurants(keyword, maxResults);
+        CompletableFuture<List<Restaurant>> searchFuture = hotPepperClient.searchRestaurants(keyword, null, maxResults);
         // API の結果格納
         List<Restaurant> restaurantList = searchFuture.get();
 

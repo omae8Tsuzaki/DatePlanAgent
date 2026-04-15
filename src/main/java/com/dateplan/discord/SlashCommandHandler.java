@@ -35,6 +35,9 @@ public class SlashCommandHandler extends ListenerAdapter {
         // Discordのスラッシュコマンドからオプションを取得
         String date = event.getOption("date") != null ? event.getOption("date").getAsString() : "";
         String area = event.getOption("area") != null ? event.getOption("area").getAsString() : "";
+        String genre = event.getOption("genre") != null ? event.getOption("genre").getAsString() : null;
+        String timeOfDay = event.getOption("time-of-day") != null ? event.getOption("time-of-day").getAsString() : null;
+        String transportation = event.getOption("transportation") != null ? event.getOption("transportation").getAsString() : null;
 
         // 入力値チェック
         // 日付
@@ -50,12 +53,12 @@ public class SlashCommandHandler extends ListenerAdapter {
             return;
         }
 
-        LOGGER.info("Slash command received: date={}, area={}", date, area);
+        LOGGER.info("Slash command received: date={}, area={}, genre={}, time-of-day={}, transportation={}", date, area, genre, timeOfDay, transportation);
 
         // 即座に「考え中...」を返答
         event.deferReply().queue();
 
-        DatePlanRequest request = new DatePlanRequest(date, area);
+        DatePlanRequest request = new DatePlanRequest(date, area, genre, timeOfDay, transportation);
         agent.generatePlan(request)
                 .thenAccept(plan -> {
                     String message = formatPlan(plan);

@@ -15,7 +15,7 @@ Gradle 9.0、Java 21+、Spring Boot 4.0.5。依存関係は `gradle/libs.version
 
 ## アーキテクチャ
 
-デートプランを生成するDiscord Bot（Spring Boot）。ユーザーが日付とエリアを入力すると（例: `/dateplan date:2026-03-15 area:渋谷`）、天気とレストラン情報を並列取得し、OpenAIでデートプランを生成して返す。
+デートプランを生成するDiscord Bot（Spring Boot）。ユーザーが日付・エリアを必須、ジャンル・時間帯・移動手段を任意で入力すると（例: `/dateplan date:2026-03-15 area:渋谷 genre:イタリアン timeofday:夜 transportation:電車のみ`）、天気とレストラン情報を並列取得し、OpenAIでデートプランを生成して返す。
 
 **リクエストフロー:**
 Discordコマンド → `SlashCommandHandler` or `MessageCommandHandler` → `DatePlanAgent.generatePlan()` → `WeatherApiClient` + `HotPepperApiClient`（並列） → `OpenAiClient` → Discordへ応答
@@ -38,6 +38,9 @@ Spring Bootのコンストラクタインジェクションで全Bean（`AppConf
 - `AreaCodeResolver` はエリア名（渋谷、梅田等）を `area_codes.json` で気象庁エリアコードに変換。完全一致 → エイリアス一致 → 部分一致の順で解決
 - Discordハンドラは非同期処理前に `event.deferReply()` を呼び、3秒のインタラクションタイムアウトを回避
 - 2000文字超のメッセージはDiscordの上限に合わせて分割送信
+- `DatePlanRequest` は `date`・`area`（必須）と `genre`・`timeOfDay`・`transportation`（任意、null許容）の5フィールドを持つ
+- `HotPepperApiClient.searchRestaurants(keyword, genre, count)` は `genre` が指定された場合、キーワードに連結して検索精度を高める
+- `DatePlanPromptBuilder` はシステムプロンプトで時間帯を汎用化し、ユーザープロンプトには `genre`・`timeOfDay`・`transportation` が指定された場合のみそのセクションを出力する
 
 **外部API:**
 - 気象庁: `https://www.jma.go.jp/bosai/forecast/data/overview_forecast/{areaCode}.json` — 認証不要

@@ -30,7 +30,7 @@ public class DatePlanPromptBuilder {
                 魅力的で実用的なデートプランを日本語で作成してください。
 
                 以下のルールに従ってください：
-                - 時間軸に沿ったプランを作成（正午〜夜まで）
+                - 時間軸に沿ったプランを作成（ユーザーが時間帯を指定した場合はそれに従うこと。指定がない場合は正午〜夜まで）
                 - 天気に応じた活動を提案（雨なら屋内中心など）
                 - 提供されたレストラン情報から適切なお店を組み込む
                 - 移動手段や所要時間も考慮する
@@ -53,6 +53,15 @@ public class DatePlanPromptBuilder {
         sb.append(LS);
         sb.append("**日付**: ").append(request.date()).append(LS);
         sb.append("**エリア**: ").append(request.area()).append(LS);
+        if (request.timeOfDay() != null && !request.timeOfDay().isBlank()) {
+            sb.append("**時間帯**: ").append(request.timeOfDay()).append(LS);
+        }
+        if (request.genre() != null && !request.genre().isBlank()) {
+            sb.append("**好みのジャンル**: ").append(request.genre()).append(LS);
+        }
+        if (request.transportation() != null && !request.transportation().isBlank()) {
+            sb.append("**移動手段**: ").append(request.transportation()).append(LS);
+        }
         sb.append(LS);
         sb.append("## 天気予報").append(LS);
         sb.append("**対象地域**: ").append(weather.targetArea()).append(LS);
@@ -65,9 +74,9 @@ public class DatePlanPromptBuilder {
             for (int i = 0; i < restaurants.size(); i++) {
                 Restaurant r = restaurants.get(i);
                 sb.append(i + 1).append(". **").append(r.name()).append("**").append(LS);
-                sb.append("   - ジャンル: ").append(r.genre()).append(LS);
-                sb.append("   - 予算: ").append(r.budget()).append(LS);
-                sb.append("   - アクセス: ").append(r.access()).append(LS);
+                sb.append("  - ジャンル: ").append(r.genre()).append(LS);
+                sb.append("  - 予算: ").append(r.budget()).append(LS);
+                sb.append("  - アクセス: ").append(r.access()).append(LS);
             }
         }
 

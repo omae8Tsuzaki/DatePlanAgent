@@ -67,7 +67,7 @@ public class MessageCommandHandler extends ListenerAdapter {
         // 「考え中...」メッセージを送信
         channel.sendMessage("考え中... しばらくお待ちください。").queue();
 
-        DatePlanRequest request = new DatePlanRequest(date, area);
+        DatePlanRequest request = new DatePlanRequest(date, area, null, null, null);
         agent.generatePlan(request)
                 .thenAccept(plan -> {
                     String message = formatPlan(plan);

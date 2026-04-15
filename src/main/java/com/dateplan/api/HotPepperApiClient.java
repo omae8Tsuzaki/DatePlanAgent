@@ -37,12 +37,14 @@ public class HotPepperApiClient {
     /**
      * <p>指定されたキーワードでレストランを非同期で検索する。</p>
      *
-     * @param keyword 検索キーワード（例: "渋谷 カフェ"）
+     * @param keyword 検索キーワード（例: "渋谷"）
+     * @param genre 好みのジャンル（例: "イタリアン"）。{@code null} の場合はキーワードのみで検索する
      * @param count 取得するレストランの最大数
      * @return レストランのリストを含むCompletableFuture
      */
-    public CompletableFuture<List<Restaurant>> searchRestaurants(String keyword, int count) {
-        String encodedKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+    public CompletableFuture<List<Restaurant>> searchRestaurants(String keyword, String genre, int count) {
+        String searchKeyword = (genre != null && !genre.isBlank()) ? keyword + " " + genre : keyword;
+        String encodedKeyword = URLEncoder.encode(searchKeyword, StandardCharsets.UTF_8);
         String url = BASE_URL + "?key=" + apiKey
                 + "&keyword=" + encodedKeyword
                 + "&format=json"

@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * <h4>対象：{@link DatePlanPromptBuilder#buildUserPrompt(DatePlanRequest, WeatherInfo, List)}メソッド</h4>
  * <ul>
  *     <li>{@link #buildUserPromptSuccess01()} 正常系: ユーザープロンプトが正しく構築されることを確認する。</li>
+ *     <li>{@link #buildUserPromptSuccess02()} 正常系: genre/timeOfDay/transportation を指定した場合にプロンプトへ反映されることを確認する。</li>
  * </ul>
  */
 public class DatePlanPromptBuilderTest {
@@ -58,7 +59,7 @@ public class DatePlanPromptBuilderTest {
                 魅力的で実用的なデートプランを日本語で作成してください。
 
                 以下のルールに従ってください：
-                - 時間軸に沿ったプランを作成（正午〜夜まで）
+                - 時間軸に沿ったプランを作成（ユーザーが時間帯を指定した場合はそれに従うこと。指定がない場合は正午〜夜まで）
                 - 天気に応じた活動を提案（雨なら屋内中心など）
                 - 提供されたレストラン情報から適切なお店を組み込む
                 - 移動手段や所要時間も考慮する
@@ -83,7 +84,7 @@ public class DatePlanPromptBuilderTest {
         DatePlanPromptBuilder promptBuilder = new DatePlanPromptBuilder();
 
         // ダミーデータの作成
-        DatePlanRequest request = new DatePlanRequest("2024-07-01", "渋谷");
+        DatePlanRequest request = new DatePlanRequest("2024-07-01", "渋谷", null, null, null);
         WeatherInfo weather = new WeatherInfo("渋谷", "晴れ", "2024-07-01T08:00:00Z", "晴れのち曇り");
         List<Restaurant> restaurants = List.of(
                 new Restaurant("レストランA", "東京都渋谷区1-1-1", "イタリアン", "5000", "渋谷駅から徒歩1分", "https://example.com/a", "イタリアン"),
@@ -112,13 +113,62 @@ public class DatePlanPromptBuilderTest {
                         LS +
                         "## 周辺レストラン情報" + LS +
                         "1. **レストランA**" + LS +
-                        "   - ジャンル: イタリアン" + LS +
-                        "   - 予算: 5000" + LS +
-                        "   - アクセス: 渋谷駅から徒歩1分" + LS +
+                        "  - ジャンル: イタリアン" + LS +
+                        "  - 予算: 5000" + LS +
+                        "  - アクセス: 渋谷駅から徒歩1分" + LS +
                         "2. **レストランB**" + LS +
-                        "   - ジャンル: フレンチ" + LS +
-                        "   - 予算: 1000" + LS +
-                        "   - アクセス: 渋谷駅からタクシーで１分" + LS +
+                        "  - ジャンル: フレンチ" + LS +
+                        "  - 予算: 1000" + LS +
+                        "  - アクセス: 渋谷駅からタクシーで１分" + LS +
+                        LS +
+                        "上記の情報をもとに、素敵なデートプランを作成してください。",
+                result);
+    }
+
+    /**
+     * <p>正常系: genre/timeOfDay/transportation を指定した場合にユーザープロンプトへ反映されることを確認する。</p>
+     *
+     * @throws Exception 想定外の例外が発生した場合
+     */
+    @Test
+    public void buildUserPromptSuccess02() throws Exception {
+
+        //
+        // 事前準備
+        //
+
+        DatePlanPromptBuilder promptBuilder = new DatePlanPromptBuilder();
+
+        // 3フィールドすべて指定
+        DatePlanRequest request = new DatePlanRequest("2024-07-01", "渋谷", "イタリアン", "夜", "電車のみ");
+        WeatherInfo weather = new WeatherInfo("渋谷", "晴れ", "2024-07-01T08:00:00Z", "晴れ");
+        List<Restaurant> restaurants = List.of();
+
+        //
+        // 実行
+        //
+
+        String result = promptBuilder.buildUserPrompt(request, weather, restaurants);
+
+        //
+        // 検証
+        //
+
+        assertEquals(
+                "## デートプラン作成リクエスト" + LS +
+                        LS +
+                        "**日付**: 2024-07-01" + LS +
+                        "**エリア**: 渋谷" + LS +
+                        "**時間帯**: 夜" + LS +
+                        "**好みのジャンル**: イタリアン" + LS +
+                        "**移動手段**: 電車のみ" + LS +
+                        LS +
+                        "## 天気予報" + LS +
+                        "**対象地域**: 渋谷" + LS +
+                        "**予報**: 晴れ" + LS +
+                        LS +
+                        "## 周辺レストラン情報" + LS +
+                        "レストラン情報は取得できませんでした。一般的なおすすめを提案してください。" + LS +
                         LS +
                         "上記の情報をもとに、素敵なデートプランを作成してください。",
                 result);

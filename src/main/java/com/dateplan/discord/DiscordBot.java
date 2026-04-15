@@ -73,6 +73,9 @@ public class DiscordBot implements CommandLineRunner {
                 Commands.slash("dateplan", "デートプランを生成します")
                         .addOption(OptionType.STRING, "date", "日付（例: 2026-03-15）", true)
                         .addOption(OptionType.STRING, "area", "エリア（例: 渋谷）", true)
+                        .addOption(OptionType.STRING, "genre", "好みのジャンル（例: 和食、イタリアン、カフェ）", false)
+                        .addOption(OptionType.STRING, "time-of-day", "時間帯（昼間 / 夕方 / 夜 / 丸一日）", false)
+                        .addOption(OptionType.STRING, "transportation", "移動手段（徒歩中心 / 電車のみ / 車あり）", false)
         ).queue();
     }
 }

@@ -65,7 +65,7 @@ public class DatePlanAgent {
                     return new WeatherInfo(request.area(), "", "", "天気情報を取得できませんでした。");
                 });
 
-        CompletableFuture<List<Restaurant>> restaurantFuture = hotPepperClient.searchRestaurants(request.area(), RESTAURANT_COUNT)
+        CompletableFuture<List<Restaurant>> restaurantFuture = hotPepperClient.searchRestaurants(request.area(), request.genre(), RESTAURANT_COUNT)
                 .exceptionally(e -> {
                     LOGGER.warn("Failed to fetch restaurants: {}", e.getMessage());
                     return Collections.emptyList();
