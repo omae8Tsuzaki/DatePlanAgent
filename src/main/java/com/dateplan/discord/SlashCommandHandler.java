@@ -1,23 +1,20 @@
 package com.dateplan.discord;
 
 import com.dateplan.agent.DatePlanAgent;
-import com.dateplan.entity.DatePlan;
 import com.dateplan.entity.DatePlanRequest;
 import com.dateplan.util.ValidateUtil;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>Discordのスラッシュコマンドを処理するクラス。</p>
+ * <p>Discord のスラッシュコマンドを処理するクラス。</p>
  */
-public class SlashCommandHandler extends ListenerAdapter {
+public class SlashCommandHandler extends BaseCommandHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SlashCommandHandler.class);
-    private final DatePlanAgent agent;
 
     public SlashCommandHandler(DatePlanAgent agent) {
-        this.agent = agent;
+        super(agent);
     }
 
     /**
@@ -62,7 +59,7 @@ public class SlashCommandHandler extends ListenerAdapter {
         agent.generatePlan(request)
                 .thenAccept(plan -> {
                     String message = formatPlan(plan);
-                    sendLongMessage(event, message);
+                    sendLongMessage(message, chunk -> event.getHook().sendMessage(chunk).queue());
                 })
                 .exceptionally(e -> {
                     LOGGER.error("Failed to generate plan", e);
@@ -71,45 +68,4 @@ public class SlashCommandHandler extends ListenerAdapter {
                 });
     }
 
-    /**
-     * <p>デートプランを Discord のメッセージ形式に整形する。</p>
-     *
-     * @param plan デートプランのエンティティ
-     * @return Discordのメッセージ形式に整形されたデートプランのテキスト
-     */
-    private String formatPlan(DatePlan plan) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("**").append(plan.request().date()).append(" ").append(plan.request().area()).append(" のデートプラン**\n\n");
-        sb.append(plan.planText());
-        return sb.toString();
-    }
-
-    /**
-     * <p>メッセージを送信する。</p>
-     * <p>Discordのメッセージ上限（2000文字）を考慮して、長いメッセージは分割して送信する。</p>
-     *
-     * @param event SlashCommandInteractionEventのフックを使用してメッセージを送信
-     * @param message 送信するメッセージのテキスト
-     */
-    private void sendLongMessage(SlashCommandInteractionEvent event, String message) {
-        // Discordのメッセージ上限は2000文字
-        if (message.length() <= 2000) {
-            event.getHook().sendMessage(message).queue();
-        } else {
-            // 長いメッセージは分割して送信
-            int start = 0;
-            boolean first = true;
-            while (start < message.length()) {
-                int end = Math.min(start + 2000, message.length());
-                String chunk = message.substring(start, end);
-                if (first) {
-                    event.getHook().sendMessage(chunk).queue();
-                    first = false;
-                } else {
-                    event.getHook().sendMessage(chunk).queue();
-                }
-                start = end;
-            }
-        }
-    }
 }

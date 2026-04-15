@@ -23,12 +23,12 @@ public class OpenAiClient implements AiClient {
     }
 
     /**
-     * <p>システムプロンプトとユーザープロンプトを受け取り、OpenAI APIを呼び出して応答を非同期で返す。</p>
+     * <p>システムプロンプトとユーザープロンプトを受け取り、OpenAI API を呼び出して応答を非同期で返す。</p>
      *
      * @param systemPrompt システムプロンプト
      * @param userPrompt   ユーザープロンプト
-     * @param modelId 使用するモデルID
-     * @return AIの応答テキストを含むCompletableFuture
+     * @param modelId 使用するモデル ID
+     * @return AIの応答テキストを含む CompletableFuture
      */
     @Override
     public CompletableFuture<String> chat(String systemPrompt, String userPrompt, String modelId) {

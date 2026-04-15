@@ -48,7 +48,7 @@ public class DiscordBot implements CommandLineRunner {
      * @param config アプリケーション設定
      * @param agent DatePlanAgent のインスタンス
      * @return 構築された JDA のインスタンス
-     * @throws InterruptedException JDAの起動に失敗した場合
+     * @throws InterruptedException JDA の起動に失敗した場合
      */
     JDA buildJda(AppConfig config, DatePlanAgent agent) throws InterruptedException {
         JDA jda = JDABuilder.createLight(config.getDiscordToken(),

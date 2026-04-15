@@ -1,26 +1,23 @@
 package com.dateplan.discord;
 
 import com.dateplan.agent.DatePlanAgent;
-import com.dateplan.entity.DatePlan;
 import com.dateplan.entity.DatePlanRequest;
 import com.dateplan.util.ValidateUtil;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>Discordのメッセージコマンドを処理するクラス。</p>
+ * <p>Discord のメッセージコマンドを処理するクラス。</p>
  * <p>ユーザーが「!dateplan <日付> <エリア>」という形式でメッセージを送信した際に、デートプランを生成して返信します。</p>
  */
-public class MessageCommandHandler extends ListenerAdapter {
+public class MessageCommandHandler extends BaseCommandHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageCommandHandler.class);
     private static final String PREFIX = "!dateplan";
-    private final DatePlanAgent agent;
 
     public MessageCommandHandler(DatePlanAgent agent) {
-        this.agent = agent;
+        super(agent);
     }
 
     /**
@@ -71,7 +68,7 @@ public class MessageCommandHandler extends ListenerAdapter {
         agent.generatePlan(request)
                 .thenAccept(plan -> {
                     String message = formatPlan(plan);
-                    sendLongMessage(channel, message);
+                    sendLongMessage(message, chunk -> channel.sendMessage(chunk).queue());
                 })
                 .exceptionally(e -> {
                     LOGGER.error("Failed to generate plan", e);
@@ -80,36 +77,4 @@ public class MessageCommandHandler extends ListenerAdapter {
                 });
     }
 
-    /**
-     * <p>デートプランを Discord のメッセージ形式に整形する。</p>
-      *
-     * @param plan デートプランのエンティティ
-     * @return Discordのメッセージ形式に整形されたデートプランのテキスト
-     */
-    private String formatPlan(DatePlan plan) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("**").append(plan.request().date()).append(" ").append(plan.request().area()).append(" のデートプラン**\n\n");
-        sb.append(plan.planText());
-        return sb.toString();
-    }
-
-    /**
-     * <p>メッセージを送信する。</p>
-     *
-     * @param channel メッセージを送信するチャンネル
-     * @param message 送信するメッセージのテキスト
-     */
-    private void sendLongMessage(MessageChannel channel, String message) {
-        if (message.length() <= 2000) {
-            channel.sendMessage(message).queue();
-        } else {
-            int start = 0;
-            while (start < message.length()) {
-                int end = Math.min(start + 2000, message.length());
-                String chunk = message.substring(start, end);
-                channel.sendMessage(chunk).queue();
-                start = end;
-            }
-        }
-    }
 }

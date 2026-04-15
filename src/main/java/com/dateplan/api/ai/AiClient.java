@@ -3,7 +3,7 @@ package com.dateplan.api.ai;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * <p>AI APIクライアントの共通インターフェース。</p>
+ * <p>AI API クライアントの共通インターフェース。</p>
  */
 public interface AiClient {
 

@@ -44,7 +44,7 @@ public class AreaCodeResolverTest {
     }
 
     /**
-     * <p>正常系：空文字を渡すと、nullが返される。</p>
+     * <p>正常系：空文字を渡すと、null が返される。</p>
      *
      * @throws Exception 想定外の例外が発生した場合
      */
@@ -69,7 +69,7 @@ public class AreaCodeResolverTest {
     }
 
     /**
-     * <p>正常系：nullを渡すと、nullが返される。</p>
+     * <p>正常系：null を渡すと、null が返される。</p>
      *
      * @throws Exception 想定外の例外が発生した場合
      */

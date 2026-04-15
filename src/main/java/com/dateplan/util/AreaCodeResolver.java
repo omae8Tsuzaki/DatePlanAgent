@@ -52,7 +52,7 @@ public class AreaCodeResolver {
      * <p>エリア名から地域コードを解決する。</p>
      *
      * @param areaName ユーザーが入力するエリア名や地名（例: "新宿", "渋谷区", "東京"）
-     * @return 対応する地域コード（例: "130000"）または解決できない場合はnull
+     * @return 対応する地域コード（例: "130000"）または解決できない場合は null
      */
     public static String resolve(String areaName) {
         if (areaName == null || areaName.isBlank()) {

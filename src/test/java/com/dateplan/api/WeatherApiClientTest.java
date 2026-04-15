@@ -85,7 +85,7 @@ public class WeatherApiClientTest {
     }
 
     /**
-     * <p>異常系: nullを地域コードとして渡した場合。</p>
+     * <p>異常系: null を地域コードとして渡した場合。</p>
      *
      * @throws Exception 想定外の例外が発生した場合
      */
