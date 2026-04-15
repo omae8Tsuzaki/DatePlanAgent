@@ -37,14 +37,17 @@ public class SlashCommandHandler extends BaseCommandHandler {
         String transportation = event.getOption("transportation") != null ? event.getOption("transportation").getAsString() : null;
 
         // 入力値チェック
-        // 日付
-        if (!ValidateUtil.validateDate(date, ValidateUtil.YYYY_MM_DD_FORMATTER)) {
-            event.getChannel().sendMessage("日付の形式が正しくありません。例: `2026-03-15`").queue();
+        // 必須項目の空白チェック
+        if (date.isBlank() || area.isBlank()) {
+            event.reply("日付とエリアを両方指定してください。\n例: `/dateplan date:2026-03-15 area:渋谷`")
+                    .setEphemeral(true)
+                    .queue();
             return;
         }
 
-        if (date.isBlank() || area.isBlank()) {
-            event.reply("日付とエリアを両方指定してください。\n例: `/dateplan date:2026-03-15 area:渋谷`")
+        // 日付形式チェック
+        if (!ValidateUtil.validateDate(date, ValidateUtil.YYYY_MM_DD_FORMATTER)) {
+            event.reply("日付の形式が正しくありません。例: `2026-03-15`")
                     .setEphemeral(true)
                     .queue();
             return;

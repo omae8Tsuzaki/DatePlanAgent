@@ -1,5 +1,6 @@
 package com.dateplan.agent;
 
+import com.dateplan.AppConfig;
 import com.dateplan.api.ai.AiClient;
 import com.dateplan.api.ai.DatePlanPromptBuilder;
 import com.dateplan.api.HotPepperApiClient;
@@ -26,21 +27,19 @@ public class DatePlanAgent {
     // ホットペッパーAPIから取得するレストランの最大数
     private static final int RESTAURANT_COUNT = 5;
 
-    // 使用するAIモデルのID
-    // TODO 将来的に application.properties から設定できるようにする
-    private static final String MODEL_ID = "gpt-5-nano-2025-08-07";
-
     private final WeatherApiClient weatherClient;
     private final HotPepperApiClient hotPepperClient;
     private final AiClient aiClient;
     private final DatePlanPromptBuilder promptBuilder;
+    private final String modelId;
 
     public DatePlanAgent(WeatherApiClient weatherClient, HotPepperApiClient hotPepperClient,
-                         AiClient aiClient, DatePlanPromptBuilder promptBuilder) {
+                         AiClient aiClient, DatePlanPromptBuilder promptBuilder, AppConfig appConfig) {
         this.weatherClient = weatherClient;
         this.hotPepperClient = hotPepperClient;
         this.aiClient = aiClient;
         this.promptBuilder = promptBuilder;
+        this.modelId = appConfig.getModelId();
     }
 
     /**
@@ -80,7 +79,7 @@ public class DatePlanAgent {
             // ユーザープロンプト生成
             String userPrompt = promptBuilder.buildUserPrompt(request, weather, restaurants);
 
-            return aiClient.chat(systemPrompt, userPrompt, MODEL_ID)
+            return aiClient.chat(systemPrompt, userPrompt, modelId)
                     .thenApply(planText -> new DatePlan(request, weather, restaurants, planText));
         }).thenCompose(future -> future);
     }

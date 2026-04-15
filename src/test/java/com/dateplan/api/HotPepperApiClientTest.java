@@ -34,7 +34,7 @@ public class HotPepperApiClientTest {
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = "test-hotpepper-key";
         }
-        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", apiKey);
+        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", apiKey, "dummy-model-id");
         HotPepperApiClient hotPepperClient = new HotPepperApiClient(appConfig);
         String keyword = "渋谷 デート";
         int maxResults = 5;

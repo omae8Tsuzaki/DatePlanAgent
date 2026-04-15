@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *     <li>{@link #validateError04()} 異常系: openai.api.key が null の場合、例外がスローされることを確認する。</li>
  *     <li>{@link #validateError05()} 異常系: hotpepper.api.key が空文字の場合、例外がスローされることを確認する。</li>
  *     <li>{@link #validateError06()} 異常系: hotpepper.api.key が null の場合、例外がスローされることを確認する。</li>
+ *     <li>{@link #validateError07()} 異常系: openai.model.id が空文字の場合、例外がスローされることを確認する。</li>
+ *     <li>{@link #validateError08()} 異常系: openai.model.id が null の場合、例外がスローされることを確認する。</li>
  * </ul>
  */
 public class AppConfigTest {
@@ -39,7 +41,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "test-discord-token",
                 "test-openai-key",
-                "test-hotpepper-key"
+                "test-hotpepper-key",
+                "test-model-id"
         );
 
         //
@@ -49,6 +52,7 @@ public class AppConfigTest {
         assertEquals("test-discord-token", config.getDiscordToken());
         assertEquals("test-openai-key", config.getOpenAiApiKey());
         assertEquals("test-hotpepper-key", config.getHotPepperApiKey());
+        assertEquals("test-model-id", config.getModelId());
 
     }
 
@@ -67,7 +71,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "",
                 "test-openai-key",
-                "test-hotpepper-key"
+                "test-hotpepper-key",
+                "test-model-id"
         );
 
         try {
@@ -103,7 +108,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 null,
                 "test-openai-key",
-                "test-hotpepper-key"
+                "test-hotpepper-key",
+                "test-model-id"
         );
 
         try {
@@ -139,7 +145,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "test-discord-token",
                 "",
-                "test-hotpepper-key"
+                "test-hotpepper-key",
+                "test-model-id"
         );
 
         try {
@@ -175,7 +182,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "test-discord-token",
                 null,
-                "test-hotpepper-key"
+                "test-hotpepper-key",
+                "test-model-id"
         );
 
         try {
@@ -211,7 +219,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "test-discord-token",
                 "test-openai-key",
-                ""
+                "",
+                "test-model-id"
         );
 
         try {
@@ -247,7 +256,8 @@ public class AppConfigTest {
         AppConfig config = new AppConfig(
                 "test-discord-token",
                 "test-openai-key",
-                null
+                null,
+                "test-model-id"
         );
 
         try {
@@ -265,6 +275,80 @@ public class AppConfigTest {
             //
 
             assertEquals("hotpepper.api.key is not set", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>異常系：openai.model.id が空文字の場合、例外がスローされることを確認する。</p>
+     *
+     * @throws Exception 想定外の例外が発生した場合
+     */
+    @Test
+    public void validateError07() throws Exception {
+
+        //
+        // 事前準備
+        //
+
+        AppConfig config = new AppConfig(
+                "test-discord-token",
+                "test-openai-key",
+                "test-hotpepper-key",
+                ""
+        );
+
+        try {
+
+            //
+            // 実行
+            //
+
+            config.validate();
+            fail();
+        } catch (IllegalStateException e) {
+
+            //
+            // 検証
+            //
+
+            assertEquals("openai.model.id is not set", e.getMessage());
+        }
+    }
+
+    /**
+     * <p>異常系：openai.model.id が null の場合、例外がスローされることを確認する。</p>
+     *
+     * @throws Exception 想定外の例外が発生した場合
+     */
+    @Test
+    public void validateError08() throws Exception {
+
+        //
+        // 事前準備
+        //
+
+        AppConfig config = new AppConfig(
+                "test-discord-token",
+                "test-openai-key",
+                "test-hotpepper-key",
+                null
+        );
+
+        try {
+
+            //
+            // 実行
+            //
+
+            config.validate();
+            fail();
+        } catch (IllegalStateException e) {
+
+            //
+            // 検証
+            //
+
+            assertEquals("openai.model.id is not set", e.getMessage());
         }
     }
 }

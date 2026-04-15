@@ -25,13 +25,20 @@ public class AppConfig {
      */
     private final String hotPepperApiKey;
 
+    /**
+     * <p>使用する OpenAI モデルの ID。</p>
+     */
+    private final String modelId;
+
     public AppConfig(
             @Value("${discord.token}") String discordToken,
             @Value("${openai.api.key}") String openAiApiKey,
-            @Value("${hotpepper.api.key}") String hotPepperApiKey) {
+            @Value("${hotpepper.api.key}") String hotPepperApiKey,
+            @Value("${openai.model.id}") String modelId) {
         this.discordToken = discordToken;
         this.openAiApiKey = openAiApiKey;
         this.hotPepperApiKey = hotPepperApiKey;
+        this.modelId = modelId;
     }
 
     /**
@@ -47,6 +54,9 @@ public class AppConfig {
         }
         if (hotPepperApiKey == null || hotPepperApiKey.isBlank()) {
             throw new IllegalStateException("hotpepper.api.key is not set");
+        }
+        if (modelId == null || modelId.isBlank()) {
+            throw new IllegalStateException("openai.model.id is not set");
         }
     }
 
@@ -75,5 +85,14 @@ public class AppConfig {
      */
     public String getHotPepperApiKey() {
         return hotPepperApiKey;
+    }
+
+    /**
+     * <p>使用する OpenAI モデルの ID を取得する。</p>
+     *
+     * @return OpenAI モデルの ID
+     */
+    public String getModelId() {
+        return modelId;
     }
 }

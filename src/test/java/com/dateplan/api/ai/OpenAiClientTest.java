@@ -30,12 +30,12 @@ public class OpenAiClientTest {
         //
 
         // スタブ
-        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", "dummy-hotpepper-key");
+        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", "dummy-hotpepper-key", "dummy-model-id");
         AiClient openAiClient = new OpenAiClientStub(appConfig);
 
         String systemPrompt = "あなたはデートプランナーのAIアシスタントです。";
         String userPrompt = "2024年6月15日に東京でデートプランを提案してください。天気は晴れで、レストランはイタリアンがいいです。";
-        String modelId = "dammy-model-id";
+        String modelId = "dummy-model-id";
 
         //
         // 実行
