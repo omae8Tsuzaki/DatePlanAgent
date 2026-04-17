@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AppConfigTest {
 
+    private final AppConfig TEST_APP_CONFIG = new TestAppConfig().create();
+
     /**
      * <p>正常系：getter が正しく値を返すことを確認する。</p>
      *
@@ -39,10 +41,10 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
-                "test-openai-key",
-                "test-hotpepper-key",
-                "test-model-id"
+                TEST_APP_CONFIG.getDiscordToken(),
+                TEST_APP_CONFIG.getOpenAiApiKey(),
+                TEST_APP_CONFIG.getHotPepperApiKey(),
+                TEST_APP_CONFIG.getModelId()
         );
 
         //
@@ -70,9 +72,9 @@ public class AppConfigTest {
 
         AppConfig config = new AppConfig(
                 "",
-                "test-openai-key",
-                "test-hotpepper-key",
-                "test-model-id"
+                TEST_APP_CONFIG.getOpenAiApiKey(),
+                TEST_APP_CONFIG.getHotPepperApiKey(),
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -107,9 +109,9 @@ public class AppConfigTest {
 
         AppConfig config = new AppConfig(
                 null,
-                "test-openai-key",
-                "test-hotpepper-key",
-                "test-model-id"
+                TEST_APP_CONFIG.getOpenAiApiKey(),
+                TEST_APP_CONFIG.getHotPepperApiKey(),
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -143,10 +145,10 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
+                TEST_APP_CONFIG.getDiscordToken(),
                 "",
-                "test-hotpepper-key",
-                "test-model-id"
+                TEST_APP_CONFIG.getHotPepperApiKey(),
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -180,10 +182,10 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
+                TEST_APP_CONFIG.getDiscordToken(),
                 null,
-                "test-hotpepper-key",
-                "test-model-id"
+                TEST_APP_CONFIG.getHotPepperApiKey(),
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -217,10 +219,10 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
-                "test-openai-key",
+                TEST_APP_CONFIG.getDiscordToken(),
+                TEST_APP_CONFIG.getOpenAiApiKey(),
                 "",
-                "test-model-id"
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -254,10 +256,10 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
-                "test-openai-key",
+                TEST_APP_CONFIG.getDiscordToken(),
+                TEST_APP_CONFIG.getOpenAiApiKey(),
                 null,
-                "test-model-id"
+                TEST_APP_CONFIG.getModelId()
         );
 
         try {
@@ -291,9 +293,9 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
-                "test-openai-key",
-                "test-hotpepper-key",
+                TEST_APP_CONFIG.getDiscordToken(),
+                TEST_APP_CONFIG.getOpenAiApiKey(),
+                TEST_APP_CONFIG.getHotPepperApiKey(),
                 ""
         );
 
@@ -328,9 +330,9 @@ public class AppConfigTest {
         //
 
         AppConfig config = new AppConfig(
-                "test-discord-token",
-                "test-openai-key",
-                "test-hotpepper-key",
+                TEST_APP_CONFIG.getDiscordToken(),
+                TEST_APP_CONFIG.getOpenAiApiKey(),
+                TEST_APP_CONFIG.getHotPepperApiKey(),
                 null
         );
 

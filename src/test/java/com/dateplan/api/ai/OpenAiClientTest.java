@@ -1,6 +1,7 @@
 package com.dateplan.api.ai;
 
 import com.dateplan.AppConfig;
+import com.dateplan.TestAppConfig;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class OpenAiClientTest {
 
+    private final AppConfig TEST_APP_CONFIG = new TestAppConfig().create();
+
     /**
      * <p>正常系: システムプロンプトとユーザープロンプトを使用してAIの応答が正しく返されることを確認する。</p>
      *
@@ -30,8 +33,7 @@ public class OpenAiClientTest {
         //
 
         // スタブ
-        AppConfig appConfig = new AppConfig("dummy-discord-token", "dummy-openai-key", "dummy-hotpepper-key", "dummy-model-id");
-        AiClient openAiClient = new OpenAiClientStub(appConfig);
+        AiClient openAiClient = new OpenAiClientStub(TEST_APP_CONFIG);
 
         String systemPrompt = "あなたはデートプランナーのAIアシスタントです。";
         String userPrompt = "2024年6月15日に東京でデートプランを提案してください。天気は晴れで、レストランはイタリアンがいいです。";
