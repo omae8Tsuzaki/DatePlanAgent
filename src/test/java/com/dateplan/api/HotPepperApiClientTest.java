@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * <p>{@link HotPepperApiClient}のテストクラス。</p>
  *
